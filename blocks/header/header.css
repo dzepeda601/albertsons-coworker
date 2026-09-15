@@ -1328,3 +1328,97 @@ header nav .nav-tools .nav-language-menu a:focus-visible {
     max-width: 1264px;
   }
 }
+
+/* ==========================================================================
+   Albertsons header theme — white bar, Poppins, brand-blue accents.
+   Overrides the heritage defaults above.
+   ========================================================================== */
+/* stylelint-disable no-duplicate-selectors -- intentional theme overrides layered after base */
+header {
+  --nav-primary-size: 1rem;
+  --nav-primary-weight: 500;
+  --nav-hover-color: #048;
+  --nav-focus-color: #048;
+  --nav-bg-link-hover: transparent;
+}
+
+header .nav-wrapper {
+  background-color: #fff;
+  border-bottom: 1px solid #e5e4e2;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 6%);
+}
+
+/* Brand: use the real logo image, not serif text */
+header .nav-brand {
+  font-family: var(--body-font-family);
+  color: var(--color-ink);
+}
+
+header nav .nav-brand :is(img, svg) {
+  width: auto;
+  height: 32px;
+}
+
+/* Nav sections: sentence case, Poppins, dark text (override uppercase base) */
+header nav .nav-sections ul,
+header nav .nav-sections .default-content-wrapper > ul > li > p,
+header nav .nav-sections .default-content-wrapper > ul > li > p > a,
+header nav .nav-sections .default-content-wrapper > ul > li > a {
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--nav-primary-size);
+  font-weight: var(--nav-primary-weight);
+  color: var(--color-ink);
+}
+
+/* Tools: utility links render as plain brand-blue text, NOT bordered CTA boxes */
+header nav .nav-tools a:any-link,
+header nav .nav-tools a.button:any-link:not(.nav-tool) {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: var(--space-xs) var(--space-s);
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s);
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-brand-blue);
+  white-space: nowrap;
+}
+
+header nav .nav-tools a.button:any-link:not(.nav-tool):hover {
+  background: transparent;
+  color: var(--color-brand-blue-dark);
+  text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  header nav .nav-tools {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    flex-wrap: nowrap;
+  }
+
+  /* keep the search compact so the tools row never wraps */
+  header nav .nav-tools .nav-search-input {
+    width: 130px;
+  }
+
+  header nav .nav-tools a:any-link {
+    padding: var(--space-xs);
+  }
+
+  /* tighten the department nav so all items + tools fit one row */
+  header nav .nav-sections .default-content-wrapper > ul {
+    gap: var(--space-m);
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li > p > a {
+    padding: var(--space-xs) 2px;
+  }
+}
+
+/* stylelint-enable no-duplicate-selectors */

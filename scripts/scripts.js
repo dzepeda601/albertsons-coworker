@@ -71,6 +71,8 @@ function buildEmbedBlocks(main) {
   youtubeVideos.forEach((anchor) => {
     if (anchor.closest('.embed.block')) return;
     if (anchor.querySelector('.icon')) return;
+    // #_dnb opts a link out of auto-blocking (e.g. a footer "YouTube" text link)
+    if (anchor.getAttribute('href')?.includes(DNB_HASH)) return;
 
     let url;
     try {
@@ -167,12 +169,37 @@ async function inlineColorIcons(scope) {
   });
 }
 
+/**
+ * Consume `section-metadata` tables on initial (static) load: read the config,
+ * apply `style` values as section classes and other keys as data attributes,
+ * then remove the metadata element so it doesn't render as literal content.
+ * @param {Element} main
+ */
+function decorateSectionMetadata(main) {
+  main.querySelectorAll('div.section-metadata').forEach((sectionMeta) => {
+    const section = sectionMeta.closest('.section');
+    if (!section) return;
+    const meta = readBlockConfig(sectionMeta);
+    Object.keys(meta).forEach((key) => {
+      if (key === 'style') {
+        meta.style.split(',').map((s) => toClassName(s.trim())).filter(Boolean)
+          .forEach((s) => section.classList.add(s));
+      } else {
+        section.dataset[toCamelCase(key)] = meta[key];
+      }
+    });
+    (sectionMeta.parentElement.children.length === 1
+      ? sectionMeta.parentElement : sectionMeta).remove();
+  });
+}
+
 export function decorateMain(main) {
   decorateButtons(main);
   decorateIcons(main);
   inlineColorIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateSectionMetadata(main);
   decorateBlocks(main);
   if (document.contains(main)) initPageSchemas();
 }
