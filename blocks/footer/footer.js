@@ -1,4 +1,3 @@
-import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 /**
@@ -7,10 +6,11 @@ import { loadFragment } from '../fragment/fragment.js';
  */
 export default async function decorate(block) {
   // load footer as fragment (skip if aem-embed already provided content)
+  // metadata-independent dual path: /content first (localhost), then root (DA/EDS prod)
   if (block.textContent === '') {
-    const footerMeta = getMetadata('footer');
-    const footerPath = footerMeta ? new URL(footerMeta, window.location).pathname : '/footer';
-    const fragment = await loadFragment(footerPath);
+    const fragment = await loadFragment('/content/footer').catch(() => null)
+      || await loadFragment('/footer').catch(() => null);
+    if (!fragment) return;
 
     block.textContent = '';
     const footer = document.createElement('div');
@@ -18,19 +18,20 @@ export default async function decorate(block) {
     block.append(footer);
   }
 
-  // merge social icons into copyright row
   const sections = block.querySelectorAll('.section');
-  if (sections.length >= 4) {
-    const copyrightSection = sections[2];
-    const socialSection = sections[3];
-    const socialUl = socialSection.querySelector('ul');
-    const copyrightWrapper = copyrightSection.querySelector('.default-content-wrapper');
-    if (socialUl && copyrightWrapper) {
-      const pipe = document.createElement('span');
-      pipe.className = 'footer-separator';
-      pipe.textContent = '|';
-      copyrightWrapper.append(pipe, socialUl);
-      socialSection.remove();
-    }
+
+  // First section = link columns; mark it and each column for the grid layout.
+  if (sections.length) {
+    sections[0].classList.add('footer-columns');
+    sections[0]
+      .querySelectorAll(':scope > .default-content-wrapper, :scope > div > div')
+      .forEach((col) => {
+        if (col.querySelector('h3, h4, ul')) col.classList.add('footer-column');
+      });
+  }
+
+  // Last section = copyright / legal strip.
+  if (sections.length > 1) {
+    sections[sections.length - 1].classList.add('footer-legal');
   }
 }
