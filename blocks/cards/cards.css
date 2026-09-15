@@ -351,3 +351,46 @@
   }
 }
 /* stylelint-enable no-descending-specificity */
+
+/* stylelint-disable no-descending-specificity -- variant-scoped, no real conflict */
+
+/* ==========================================================================
+   Recipe cards: compact grid of shoppable recipe thumbnails (recipes page).
+   ========================================================================== */
+.cards.recipe-cards > ul {
+  max-width: none;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-m);
+}
+
+.cards.recipe-cards > ul > li {
+  border-radius: 10px;
+}
+
+.cards.recipe-cards .cards-card-image img {
+  aspect-ratio: 1;
+  width: 100%;
+  object-fit: cover;
+}
+
+.cards.recipe-cards .cards-card-body {
+  padding: var(--space-s) var(--space-m) var(--space-m);
+}
+
+.cards.recipe-cards .cards-card-body h3 {
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+@media (width >= 600px) {
+  .cards.recipe-cards > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (width >= 900px) {
+  .cards.recipe-cards > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+/* stylelint-enable no-descending-specificity */
