@@ -592,6 +592,7 @@ main .section.light-gray {
   padding: var(--space-2xl) 0;
 }
 
+
 /* ==========================================================================
    Hero bento section: hero on the left, two stacked promo cards on the right.
    ========================================================================== */
@@ -787,3 +788,54 @@ main > .section.warm {
 .library-metadata-wrapper {
   display: none;
 }
+
+/* ==========================================================================
+   Recipes landing page: green hero band + browse-by-diet chip row.
+   Placed at end so it layers after all section-link rules.
+   ========================================================================== */
+/* stylelint-disable no-descending-specificity -- variant-scoped, appended last */
+main .section.recipes-hero {
+  background-color: #406735;
+  color: #fff;
+  margin: 0;
+  padding: var(--space-2xl) 0;
+  text-align: center;
+}
+
+main .section.recipes-hero h1 {
+  color: #fff;
+}
+
+main .section.recipes-hero a.button:any-link {
+  background-color: #fff;
+  border-color: #fff;
+  color: var(--color-ink);
+}
+
+main .section.light-gray > .default-content-wrapper ul {
+  list-style: none;
+  margin: var(--space-m) 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+  justify-content: center;
+}
+
+main .section.light-gray > .default-content-wrapper ul li a {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 1px solid var(--color-brand-blue);
+  border-radius: 999px;
+  color: var(--color-brand-blue);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: var(--body-font-size-s);
+  transition: background-color 0.2s, color 0.2s;
+}
+
+main .section.light-gray > .default-content-wrapper ul li a:hover {
+  background-color: var(--color-brand-blue);
+  color: #fff;
+}
+/* stylelint-enable no-descending-specificity */
